@@ -1,0 +1,4 @@
+import React from 'react';
+import{Canvas,useFrame}from'@react-three/fiber';import{Float,MeshTransmissionMaterial,Stars}from'@react-three/drei';import{useRef}from'react';
+function Core(){const ref=useRef();useFrame((_,d)=>{ref.current.rotation.x+=d*.15;ref.current.rotation.y+=d*.25});return <Float speed={2} rotationIntensity={1.4} floatIntensity={1.2}><mesh ref={ref}><icosahedronGeometry args={[1.65,5]}/><MeshTransmissionMaterial backside samples={8} thickness={.35} chromaticAberration={.25} roughness={.08} transmission={1} ior={1.45}/></mesh></Float>}
+export default function Orb(){return <div className="orb"><Canvas camera={{position:[0,0,5],fov:45}}><ambientLight intensity={1.5}/><pointLight position={[3,3,3]} intensity={20}/><Stars radius={8} depth={20} count={900} factor={2}/><Core/></Canvas></div>}

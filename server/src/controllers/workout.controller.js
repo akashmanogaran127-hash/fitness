@@ -1,0 +1,6 @@
+import Workout from '../models/Workout.js';
+export async function list(req,res,next){try{const q=(req.query.q||'').trim();const filter={user:req.user.id};if(q)filter.$or=[{workoutName:new RegExp(q,'i')},{category:new RegExp(q,'i')}];const items=await Workout.find(filter).sort({workoutDate:-1});res.json({success:true,workouts:items})}catch(e){next(e)}}
+export async function create(req,res,next){try{const w=await Workout.create({...req.body,user:req.user.id});res.status(201).json({success:true,workout:w})}catch(e){next(e)}}
+export async function getOne(req,res,next){try{const w=await Workout.findOne({_id:req.params.id,user:req.user.id});if(!w)return res.status(404).json({success:false,message:'Workout not found'});res.json({success:true,workout:w})}catch(e){next(e)}}
+export async function update(req,res,next){try{const w=await Workout.findOneAndUpdate({_id:req.params.id,user:req.user.id},req.body,{new:true,runValidators:true});if(!w)return res.status(404).json({success:false,message:'Workout not found'});res.json({success:true,workout:w})}catch(e){next(e)}}
+export async function remove(req,res,next){try{const w=await Workout.findOneAndDelete({_id:req.params.id,user:req.user.id});if(!w)return res.status(404).json({success:false,message:'Workout not found'});res.json({success:true,message:'Workout deleted'})}catch(e){next(e)}}

@@ -1,0 +1,1 @@
+import {Router} from 'express'; import {auth} from '../middleware/auth.js'; import {recommend,insights} from '../controllers/ai.controller.js'; const r=Router();r.use(auth);r.post('/recommend',recommend);r.post('/insights',insights);export default r;
